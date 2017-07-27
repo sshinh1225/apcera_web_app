@@ -1,0 +1,44 @@
+<div id ="chooser"> 
+<form action = "http://localhost:5000/table" method = "POST">
+  <h3 align = 'center'>Select a Resource</h3>
+  <select name='resource'>
+      <option value='jobs'>jobs</option>
+      <option value='packages'>packages</option>
+      <option value='app'>app</option>
+      <option value='stager'>stager</option>
+      <option value='sempipe'>sempipe</option>
+      <option value='capsule'>capsule</option>
+      <option value='docker'>docker</option>
+      <option value='networks'>networks</option>
+      <option value='services'>services</option>
+      <option value='providers'>providers</option>  
+  </select>
+  <input type="submit" value="Submit" align="center" class = "a">
+  <img src="{{ url_for('static', filename = 'apcera.png') }}" class="apc" align="right" style="width:100px;height:75px;" >
+  </div>
+</form> 
+  
+  <style>
+  body{
+    font-family: Century Gothic;
+    font-size: medium;
+    background-color: #AED6F1}
+  .apc { position: relative; top: -40px; left: 10px }
+  form {
+  margin: 200 auto;
+  width: 400px;
+  padding: 4em;
+  border: 20px solid #FFFFFF;
+  border-radius: 1em;
+  box-shadow: 10px 10px 5px #888888;}
+  input[type="submit"]{
+  background: #fff;
+  border: 1px solid light blue;
+  border-radius: 4px; 
+  
+  
+}
+  
+  </style>
+
+ 
