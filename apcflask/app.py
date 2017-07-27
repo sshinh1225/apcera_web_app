@@ -17,15 +17,12 @@ def home():
 def result():
    if request.method == 'POST':
       resource = request.form['resource']
-      print("HERE " +resource)
       getresources(resource)
       return render_template('table.html')
       
 
 domain = os.environ.get('APC_CLUSTER_DOMAIN')
 scheme = os.environ.get('APCERA_PROTO')
-print(domain)
-print(scheme)
 auth_url = scheme+"://basicauth."+domain+"/v1/oauth2/token"
 auth_url2 = scheme+"://api."+domain+"/v1/"
 
@@ -79,8 +76,6 @@ def getresources(resource):
         customurl = auth_url2 + resource
         parsetolist(get,customurl,headers, fqnlist)
 
-    print(customurl)
-    print(fqnlist)
     #Return a list with only job entries
     list = []
     counter = 0 
@@ -96,13 +91,12 @@ def getresources(resource):
             elif resource not in options and resource in entry:
                 list.append(entry)
                 counter = counter + 1
-    print(list)
     
     #Print cleaned names on newline
     l1 = []
     for x in list:
         resources = x[1:-2]
-        print(resources)
+        #print(resources)
         l1.append(resources)
           
     
@@ -127,7 +121,6 @@ def getresources(resource):
         nested.append(third)
         table.append(nested)
     table_str = str(table)
-    print(table)
 
     #format return as a table (specifically, striped rows and header)
     css = """<html>
@@ -193,7 +186,6 @@ def getresources(resource):
    
 
 if __name__ == '__main__':
-    print('Opening')
     webbrowser.open_new('http://localhost:5000') 
     app.run(debug = True, use_reloader= False)
     
