@@ -22,6 +22,13 @@ def result():
       return render_template('table.html')
       
 
+domain = os.environ.get('APC_CLUSTER_DOMAIN')
+scheme = os.environ.get('APCERA_PROTO')
+print(domain)
+print(scheme)
+auth_url = scheme+"://basicauth."+domain+"/v1/oauth2/token"
+auth_url2 = scheme+"://api."+domain+"/v1/"
+
 #searches json for "fqn" keyword and appends to a list for further filtering
 def parsetolist(get, customurl, headers, fqnlist):
     response = requests.request("GET", customurl, headers=headers)
@@ -33,7 +40,7 @@ def parsetolist(get, customurl, headers, fqnlist):
       
 def getresources(resource): 
     #Local variables for function 
-    url = "http://basicauth.dev.wgcloud.net/v1/oauth2/token"
+    url = auth_url
     headers = { 'authorization': "Basic YWRtaW46UGFzc3cwcmQjMTIzNA==",
     'cache-control': "no-cache"
     }
@@ -55,21 +62,21 @@ def getresources(resource):
     checkjob = False 
 
     if resource == "sempipe":
-        checkjob = True 
-        customurl = "http://api.dev.wgcloud.net/v1/jobs?tag=pipeline"
+        checkjob = True
+        customurl = auth_url2 +"jobs?tag=pipeline"
         parsetolist(get,customurl,headers, fqnlist)
     elif resource == "capsule":
         checkjob = True
         ender = "heavy"
-        customurl = "http://api.dev.wgcloud.net/v1/jobs?tag=heavy" 
+        customurl = auth_url2 +"jobs?tag=heavy"
         parsetolist(get,customurl,headers, fqnlist)
     elif resource in options[0:5]:
         checkjob = True
-        customurl = "http://api.dev.wgcloud.net/v1/jobs?tag=" + resource
+        customurl = auth_url2 +"jobs?tag="+resource
         parsetolist(get,customurl,headers, fqnlist)
     else:
-        checkjob = False 
-        customurl = "http://api.dev.wgcloud.net/v1/" + resource
+        checkjob = False
+        customurl = auth_url2 + resource
         parsetolist(get,customurl,headers, fqnlist)
 
     print(customurl)
@@ -120,8 +127,6 @@ def getresources(resource):
         nested.append(third)
         table.append(nested)
     table_str = str(table)
-    print("HI")
-    print("LALALAL" + resource)
     print(table)
 
     #format return as a table (specifically, striped rows and header)
@@ -190,7 +195,7 @@ def getresources(resource):
 if __name__ == '__main__':
     print('Opening')
     webbrowser.open_new('http://localhost:5000') 
-    app.run(debug = True)
+    app.run(debug = True, use_reloader= False)
     
   
    
